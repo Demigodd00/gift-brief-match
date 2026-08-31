@@ -28,23 +28,25 @@ def prepare(contract, vm, owner, proposer):
 def test_match_shortlist_and_recipient_choice(direct_vm, direct_deploy, direct_alice, direct_bob, direct_charlie):
     contract = deploy(direct_vm, direct_deploy, direct_alice, direct_charlie)
     prepare(contract, direct_vm, direct_alice, direct_bob)
-    direct_vm.mock_llm(PROMPT, json.dumps({"fit": "FIT", "concern_note": "NONE"}))
+    direct_vm.mock_llm(PROMPT, json.dumps({"fit_mask": "1111", "concern_note": "NONE"}))
     contract.assess_gift("desk")
     leader = direct_vm._captured_validators[-1][0]
     direct_vm.clear_mocks()
-    direct_vm.mock_llm(PROMPT, json.dumps({"fit": "FIT", "concern_note": "No declared exclusion or preference conflicts with the proposal."}))
+    direct_vm.mock_llm(PROMPT, json.dumps({"fit_mask": "1111", "concern_note": "No declared exclusion or preference conflicts with the proposal."}))
     assert direct_vm.run_validator(leader_result=leader) is True
     direct_vm.clear_mocks()
-    direct_vm.mock_llm(PROMPT, json.dumps({"fit": "NO_FIT", "concern_note": "This different fit decision must be rejected by the validator."}))
+    direct_vm.mock_llm(PROMPT, json.dumps({"fit_mask": "1101", "concern_note": "This different hard-constraint assessment must be rejected by the validator."}))
     assert direct_vm.run_validator(leader_result=leader) is False
     direct_vm.clear_mocks()
-    direct_vm.mock_llm(PROMPT, json.dumps({"fit": "FIT", "concern_note": "NONE"}))
+    direct_vm.mock_llm(PROMPT, json.dumps({"fit_mask": "1111", "concern_note": "NONE"}))
     contract.assess_gift("stand")
     contract.shortlist_gift("desk")
     direct_vm.sender = direct_charlie
     contract.choose_gift("desk", "This practical desk organizer matches the stated color and maintenance preferences.")
     assert contract.get_state()["phase"] == "COMPLETE"
     assert contract.get_state()["selected_proposal"] == "desk"
+    assert contract.get_proposal("desk")["fit_mask"] == "1111"
+    assert contract.get_proposal("desk")["fit"] == "FIT"
 
 
 def test_one_proposal_per_address_and_only_organizer_locks(direct_vm, direct_deploy, direct_alice, direct_bob, direct_charlie):
@@ -60,12 +62,12 @@ def test_one_proposal_per_address_and_only_organizer_locks(direct_vm, direct_dep
 def test_flagged_proposer_revision_and_bad_output_fail_closed(direct_vm, direct_deploy, direct_alice, direct_bob, direct_charlie):
     contract = deploy(direct_vm, direct_deploy, direct_alice, direct_charlie)
     prepare(contract, direct_vm, direct_alice, direct_bob)
-    direct_vm.mock_llm(PROMPT, json.dumps({"fit": "NO_FIT", "concern_note": "The original description declares a recurring subscription."}))
+    direct_vm.mock_llm(PROMPT, json.dumps({"fit_mask": "1101", "concern_note": "The original description declares a recurring subscription."}))
     contract.assess_gift("desk")
     contract.revise_gift("desk", "A durable muted-blue desk tray sold as a standalone item with no recurring service or account.", "No scent, subscription, clothing, personal name, or recurring service; wipe-clean metal construction.")
     direct_vm.clear_mocks()
-    direct_vm.mock_llm(PROMPT, json.dumps({"fit": "MAYBE", "concern_note": "Outside the allowed schema."}))
-    with direct_vm.expect_revert("invalid_fit"):
+    direct_vm.mock_llm(PROMPT, json.dumps({"fit_mask": "11X1", "concern_note": "Outside the allowed schema."}))
+    with direct_vm.expect_revert("invalid_fit_mask"):
         contract.assess_gift("desk")
     assert contract.get_proposal("desk")["state"] == "REVISED"
     assert contract.get_proposal("desk")["revision_used"] is True

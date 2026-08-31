@@ -4,7 +4,7 @@ Matches public gift proposals to a recipient's explicit preference brief and con
 
 ## Why it is an Intelligent Contract
 
-Return FIT, RISKY, or NO_FIT from declared proposal details and a bounded concern note. Validator consensus binds only the stable fit category. GenLayer's validator consensus turns that semantic judgment into shared contract state. Identity gates, single proposal/revision limits, shortlist membership, and recipient selection are deterministic and cannot be delegated to the model.
+Validators independently bind a four-dimension fit mask covering occasion, preferences, hard constraints, and maintenance. The contract stores that intermediate record and deterministically derives FIT, RISKY, or NO_FIT; a failed hard constraint always yields NO_FIT. The derived result controls revision and shortlist eligibility while the recipient retains the final choice.
 
 ## Reusable deployment model
 
@@ -27,6 +27,7 @@ The source packet is deliberately limited to public preference text and proposer
 ## Core invariants
 
 - Only an assessed FIT proposal can enter the organizer's shortlist.
+- Every assessment stores the four-dimension mask; the model never supplies the final fit category.
 - A proposer can revise a flagged proposal once before shortlisting starts.
 - The organizer cannot choose for the recipient and the contract cannot buy the item.
 
@@ -53,13 +54,15 @@ gltest tests/integration/test_glsim_consensus.py --network localnet -q
 
 The StudioNet smoke test is opt-in and requires three disposable owner-specific test accounts. It reads state using `LATEST_FINAL` and asserts successful finalized execution.
 
-## Final StudioNet proof
+## Previous StudioNet deployment (superseded)
+
+These links and the recorded source hash refer to the earlier category-only implementation. Redeploy the structured-mask version and replace this section before submission.
 
 - Contract: https://explorer-studio.genlayer.com/address/0xeC3Ec1C92B98e3f6231b5298EBF58A758584a2A5
 - Studio import: https://studio.genlayer.com/?import-contract=0xeC3Ec1C92B98e3f6231b5298EBF58A758584a2A5
 - Deployment transaction: https://explorer-studio.genlayer.com/tx/0x70151c27ca0f8703a7307cee66c7adbdafdfed564bdba8d866583bae07b607cd
 - Intelligent transaction: https://explorer-studio.genlayer.com/tx/0xf29aa8c730e9d402ae6d4bdb6102920b70674f1f979edf91c3479fa77c44fa42
-- Observed final-state sample: `"FIT"`
+- Observed legacy final-state sample: `"FIT"`
 - Audited source SHA-256: `32cc5cc101ead8db46de540baeada5ec1fa1503e2e1d881953b4e22078dcd400`
 
 ## Limitations
