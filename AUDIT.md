@@ -8,9 +8,9 @@ Source SHA-256: `abd56cc0ba1a3f0d466c283154dcf0b07e1d7c1ee32ab0cc6a0848cb9aab5f3
 
 ## Outcome
 
-The category-only judgment identified in the prior review has been removed. Validators bind a four-bit fit mask covering occasion, preference, hard constraints, and maintenance. The contract stores that intermediate mask and derives FIT, RISKY, or NO_FIT deterministically before revision, shortlisting, and recipient choice.
+The prior category-only judgment has been removed. Validators independently replay and bind a four-bit fit mask. A failed hard constraint deterministically yields NO_FIT; otherwise the mask deterministically produces FIT, RISKY, or NO_FIT before revision, shortlisting, and recipient selection.
 
-The current source passed local and GitHub verification. It is not ready to submit with the previous StudioNet links: that deployment is bound to the superseded source and must be replaced by a deployment of the current hash.
+The current source passed GenVM lint and hardened direct tests and is deployed on StudioNet with a finalized representative intelligent write.
 
 ## Verification matrix
 
@@ -18,26 +18,23 @@ The current source passed local and GitHub verification. It is not ready to subm
 | --- | --- |
 | Concrete GenVM runner pin | Pass |
 | `genvm-lint check` | Pass |
-| `genvm-lint typecheck` | Pass in GitHub CI |
 | Hardened direct tests | Pass — 3 tests |
 | Independent validator replay over intermediate results | Pass |
-| Five-validator GLSim integration | Pass |
 | Deterministic final-outcome derivation | Pass |
 | Structured intermediate result stored on-chain | Pass |
 | Meaningful reusable lifecycle after judgment | Pass |
-| Current-source StudioNet deployment and intelligent write | Pending redeployment |
-| Previous deployment | Superseded; do not submit as current proof |
+| Current-source StudioNet deployment | Pass — FINALIZED |
+| Current-source intelligent write | Pass — FINALIZED, successful execution |
 | Fund custody and cross-contract calls | None |
 
 ## Rejection issue addressed
 
-The model no longer returns a final category for one equality check. Consensus binds independently replayed intermediate findings, the contract derives the final outcome by explicit rules, and that outcome controls later contract-specific state transitions.
+The model no longer returns one final category for a single equality check. Consensus binds independently replayed intermediate findings, deterministic contract logic derives the final outcome, and that outcome controls contract-specific downstream state transitions.
 
-## Required before submission
+## Current evidence
 
-1. Deploy the current `contracts/gift_brief_match.py` source.
-2. Execute and finalize a representative intelligent write.
-3. Record the new contract address, transaction hashes, observed intermediate fields, and source hash.
-4. Replace the pending fields in `SUBMISSION.md`, `README.md`, and `deployments/studionet.json`.
-
-Legacy deployment address: `0xeC3Ec1C92B98e3f6231b5298EBF58A758584a2A5`.
+- Contract: https://explorer-studio.genlayer.com/address/0x2840Ef0751Cc870A4aa5295deb84893AaF287d7D
+- Studio import: https://studio.genlayer.com/?import-contract=0x2840Ef0751Cc870A4aa5295deb84893AaF287d7D
+- Deployment transaction: https://explorer-studio.genlayer.com/tx/0xb91cca92e68674789ada1e30f8da60f783c7fe0e9f50d8384b91828b17491cbc
+- Intelligent transaction: https://explorer-studio.genlayer.com/tx/0xb2056303a0855e36a5051a64ec2079ba1e4696df9122c211ddc86e5dc05461f8
+- Observed state: `fit_mask="1111"`, derived `fit="FIT"`, `concern_note="NONE"`
