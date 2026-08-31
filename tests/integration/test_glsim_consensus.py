@@ -11,7 +11,7 @@ PROMPT = "Compare one gift proposal"
 
 
 def context():
-    validators = get_validator_factory().batch_create_mock_validators(5, mock_llm_response={"nondet_exec_prompt": {PROMPT: json.dumps({"fit": "FIT", "concern_note": "NONE"})}})
+    validators = get_validator_factory().batch_create_mock_validators(5, mock_llm_response={"nondet_exec_prompt": {PROMPT: json.dumps({"fit_mask": "1111", "concern_note": "NONE"})}})
     return {"validators": [validator.to_dict() for validator in validators]}
 
 

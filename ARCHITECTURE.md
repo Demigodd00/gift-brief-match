@@ -26,13 +26,13 @@ Before consensus, the contract normalizes bounded text, reads all required stora
 
 ## Consensus boundary
 
-Return FIT, RISKY, or NO_FIT from declared proposal details and a bounded concern note. Validator consensus binds only the stable fit category.
+Validators independently bind a four-bit mask ordered by occasion appropriateness, preference alignment, hard-constraint satisfaction, and durability or maintenance support. Concern-note wording is advisory.
 
-The leader callback validates JSON shape, field types, closed categories, masks, and length bounds. A validator reruns the same semantic operation and rejects disagreement. Where an explanatory label can vary harmlessly, consensus binds the stable decision field while still checking that the leader's advisory text is well formed.
+The leader callback validates exact mask shape and note bounds. A validator reruns the same dimension analysis and rejects disagreement in any bit. The contract—not the model—derives NO_FIT when hard constraints fail, FIT only for `1111`, and RISKY for the remaining masks.
 
 ## Deterministic boundary
 
-Identity gates, single proposal/revision limits, shortlist membership, and recipient selection are deterministic and cannot be delegated to the model.
+Fit derivation, identity gates, single proposal/revision limits, shortlist membership, and recipient selection are deterministic and cannot be delegated to the model.
 
 Important invariants:
 
