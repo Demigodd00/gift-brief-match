@@ -3,13 +3,16 @@ Contribution Date: 08/31/2026
 Title: Gift Brief Match
 
 Submission status:
-HOLD — current-source StudioNet redeployment required before submission.
+READY — current source deployed and intelligent write finalized on StudioNet.
 
 Notes / Description:
-Built a reusable public gift-brief workflow. Validator consensus binds a four-dimension fit mask; the contract derives FIT, RISKY, or NO_FIT, allows one bounded revision, lets the organizer shortlist only derived FIT proposals, and leaves the final choice with the recipient.
+Built a reusable public gift-brief workflow. Validator consensus binds a four-dimension fit mask covering occasion, preferences, hard constraints, and maintenance; the contract derives FIT, RISKY, or NO_FIT, allows one bounded revision, restricts shortlisting to derived FIT proposals, and leaves the final choice with the recipient.
 
 Structured contract behavior:
-Validators bind a four-bit fit mask covering occasion, preference, hard constraints, and maintenance. The contract stores that intermediate mask and derives FIT, RISKY, or NO_FIT deterministically before revision, shortlisting, and recipient choice.
+Validators independently replay and bind a four-bit fit mask. A failed hard constraint deterministically yields NO_FIT; otherwise the mask deterministically produces FIT, RISKY, or NO_FIT before revision, shortlisting, and recipient selection.
+
+Observed finalized sample:
+`fit_mask="1111"`, derived `fit="FIT"`, `concern_note="NONE"`
 
 Evidence & Supporting:
 
@@ -23,16 +26,13 @@ Current source SHA-256:
 abd56cc0ba1a3f0d466c283154dcf0b07e1d7c1ee32ab0cc6a0848cb9aab5f3b
 
 GenLayer Studio Contract:
-PENDING — deploy the current main-branch source.
+https://studio.genlayer.com/?import-contract=0x2840Ef0751Cc870A4aa5295deb84893AaF287d7D
 
 GenLayer Explorer Contract:
-PENDING — do not reuse the superseded deployment.
+https://explorer-studio.genlayer.com/address/0x2840Ef0751Cc870A4aa5295deb84893AaF287d7D
 
 Deployment transaction:
-PENDING
+https://explorer-studio.genlayer.com/tx/0xb91cca92e68674789ada1e30f8da60f783c7fe0e9f50d8384b91828b17491cbc
 
 Successful intelligent transaction:
-PENDING
-
-Legacy evidence notice:
-The previous deployment at 0xeC3Ec1C92B98e3f6231b5298EBF58A758584a2A5 is bound to an older category-only source and is retained only as historical evidence. It must not be submitted as proof of the current implementation.
+https://explorer-studio.genlayer.com/tx/0xb2056303a0855e36a5051a64ec2079ba1e4696df9122c211ddc86e5dc05461f8
